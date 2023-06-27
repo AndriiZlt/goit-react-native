@@ -11,6 +11,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <MainStack.Navigator>
+        {/* <MainStack.Screen
+          name="Публікації"
+          component={Posts}
+          options={{ headerShown: true, headerTitleAlign: "center" }}
+        /> */}
         <MainStack.Screen
           name="Registration"
           component={RegistrationScreen}

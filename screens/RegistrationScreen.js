@@ -9,10 +9,11 @@ import {
   TextInput,
   Pressable,
   Keyboard,
+  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import userImage from "../assets/user.jpg";
-import { Dimensions } from "react-native";
+import { Dimensions, KeyboardAvoidingView } from "react-native";
 
 const RegistrationScreen = () => {
   const navigation = useNavigation();
@@ -22,6 +23,9 @@ const RegistrationScreen = () => {
   const [nameInputBoder, setNameInputBorder] = useState("#E8E8E8");
   const [mailInputBorder, setMailInputBorder] = useState("#E8E8E8");
   const [passwordInputBorder, setPasswordInputBorder] = useState("#E8E8E8");
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [password, setPassword] = useState("");
   const textInputName = useRef(null);
   const textInputMail = useRef(null);
   const textInputPassword = useRef(null);
@@ -46,6 +50,10 @@ const RegistrationScreen = () => {
       hideSubscription.remove();
     };
   }, []);
+
+  const onPress = () => {
+    console.log("Credentials", `${name} + ${mail} + ${password}`);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -83,6 +91,7 @@ const RegistrationScreen = () => {
               onFocus={() => setNameInputBorder("#FF6C00")}
               onBlur={() => setNameInputBorder("#E8E8E8")}
               onSubmitEditing={Keyboard.dismiss}
+              onChangeText={setName}
             ></TextInput>
             <TextInput
               style={[styles.input, { borderColor: mailInputBorder }]}
@@ -92,6 +101,7 @@ const RegistrationScreen = () => {
               onFocus={() => setMailInputBorder("#FF6C00")}
               onBlur={() => setMailInputBorder("#E8E8E8")}
               onSubmitEditing={Keyboard.dismiss}
+              onChangeText={setMail}
             ></TextInput>
 
             <View style={{ position: "relative" }}>
@@ -106,6 +116,7 @@ const RegistrationScreen = () => {
                 onFocus={() => setPasswordInputBorder("#FF6C00")}
                 onBlur={() => setPasswordInputBorder("#E8E8E8")}
                 onSubmitEditing={Keyboard.dismiss}
+                onChangeText={setPassword}
               ></TextInput>
 
               <Text style={styles.showPasswordText} onPress={() => {}}>
@@ -113,7 +124,7 @@ const RegistrationScreen = () => {
               </Text>
             </View>
             <View style={{ display: display }}>
-              <Pressable style={styles.regBtn}>
+              <Pressable style={styles.regBtn} onPress={onPress}>
                 <Text style={styles.textBtn}>Зареєстуватися</Text>
               </Pressable>
               <Text

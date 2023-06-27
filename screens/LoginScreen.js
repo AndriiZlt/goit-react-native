@@ -20,6 +20,8 @@ const LoginScreen = () => {
   const [passwordInputBorder, setPasswordInputBorder] = useState("#E8E8E8");
   const textInputMail = useRef(null);
   const textInputPassword = useRef(null);
+  const [mail, setMail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -38,6 +40,10 @@ const LoginScreen = () => {
       hideSubscription.remove();
     };
   }, []);
+
+  const onPress = () => {
+    console.log("Credentials", `${mail} + ${password}`);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -58,6 +64,7 @@ const LoginScreen = () => {
                 onFocus={() => setMailInputBorder("#FF6C00")}
                 onBlur={() => setMailInputBorder("#E8E8E8")}
                 onSubmitEditing={Keyboard.dismiss}
+                onChangeText={setMail}
               ></TextInput>
 
               <View style={{ position: "relative" }}>
@@ -72,6 +79,7 @@ const LoginScreen = () => {
                   onFocus={() => setPasswordInputBorder("#FF6C00")}
                   onBlur={() => setPasswordInputBorder("#E8E8E8")}
                   onSubmitEditing={Keyboard.dismiss}
+                  onChangeText={setPassword}
                 ></TextInput>
 
                 <Text style={styles.showPasswordText} onPress={() => {}}>
@@ -80,7 +88,7 @@ const LoginScreen = () => {
               </View>
             </View>
             <View style={{ display: display }}>
-              <Pressable style={styles.regBtn}>
+              <Pressable style={styles.regBtn} onPress={onPress}>
                 <Text style={styles.textBtn}>Увійти</Text>
               </Pressable>
               <Text
