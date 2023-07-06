@@ -9,11 +9,10 @@ import {
   TextInput,
   Pressable,
   Keyboard,
-  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import userImage from "../assets/user.jpg";
-import { Dimensions, KeyboardAvoidingView } from "react-native";
+import { Dimensions } from "react-native";
 
 const RegistrationScreen = () => {
   const navigation = useNavigation();
@@ -50,10 +49,6 @@ const RegistrationScreen = () => {
       hideSubscription.remove();
     };
   }, []);
-
-  const onPress = () => {
-    console.log("Credentials", `${name} + ${mail} + ${password}`);
-  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -124,12 +119,18 @@ const RegistrationScreen = () => {
               </Text>
             </View>
             <View style={{ display: display }}>
-              <Pressable style={styles.regBtn} onPress={onPress}>
+              <Pressable
+                style={styles.regBtn}
+                onPress={() => {
+                  console.log("Credentials", `${name} + ${mail} + ${password}`);
+                  navigation.navigate("Home");
+                }}
+              >
                 <Text style={styles.textBtn}>Зареєстуватися</Text>
               </Pressable>
               <Text
                 style={styles.navText}
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.navigate("LoginScreen")}
               >
                 Вже є акаунт? Увійти
               </Text>

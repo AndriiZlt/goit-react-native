@@ -41,10 +41,6 @@ const LoginScreen = () => {
     };
   }, []);
 
-  const onPress = () => {
-    console.log("Credentials", `${mail} + ${password}`);
-  };
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
@@ -88,7 +84,13 @@ const LoginScreen = () => {
               </View>
             </View>
             <View style={{ display: display }}>
-              <Pressable style={styles.regBtn} onPress={onPress}>
+              <Pressable
+                style={styles.regBtn}
+                onPress={() => {
+                  console.log("Credentials", `${mail} + ${password}`);
+                  navigation.navigate("Публікації");
+                }}
+              >
                 <Text style={styles.textBtn}>Увійти</Text>
               </Pressable>
               <Text

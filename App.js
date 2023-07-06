@@ -1,35 +1,54 @@
 import React from "react";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
-import Posts from "./screens/PostsScreen";
+import PostsScreen from "./screens/PostsScreen";
+import CommentsScreen from "./screens/CommentsScreen";
+import CreatePostScreen from "./screens/CreatePostScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+import Home from "./screens/Home";
 
 const MainStack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <MainStack.Navigator>
-        {/* <MainStack.Screen
-          name="Публікації"
-          component={Posts}
-          options={{ headerShown: true, headerTitleAlign: "center" }}
-        /> */}
+      <MainStack.Navigator initialRouteName="Home">
         <MainStack.Screen
           name="Registration"
           component={RegistrationScreen}
           options={{ headerShown: false }}
         />
         <MainStack.Screen
-          name="Login"
+          name="LoginScreen"
           component={LoginScreen}
           options={{ headerShown: false }}
         />
         <MainStack.Screen
           name="Публікації"
-          component={Posts}
+          component={PostsScreen}
           options={{ headerShown: true, headerTitleAlign: "center" }}
+        />
+        <MainStack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Коментарі"
+          component={CommentsScreen}
+          options={{ headerShown: true, headerTitleAlign: "center" }}
+        />
+        <MainStack.Screen
+          name="Створити публікацію"
+          component={CreatePostScreen}
+          options={{ headerShown: true, headerTitleAlign: "center" }}
+        />
+        <MainStack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
         />
       </MainStack.Navigator>
     </NavigationContainer>
