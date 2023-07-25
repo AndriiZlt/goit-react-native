@@ -1,5 +1,12 @@
 import React from "react";
-import { Image, View, StyleSheet, ImageBackground, Button } from "react-native";
+import {
+  Image,
+  View,
+  StyleSheet,
+  ImageBackground,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostsScreen from "./PostsScreen";
 import CreatePostScreen from "./CreatePostScreen";
@@ -7,7 +14,7 @@ import ProfileScreen from "./ProfileScreen";
 
 const Tabs = createBottomTabNavigator();
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <Tabs.Navigator
       initialRouteName="Публікації"
@@ -62,16 +69,32 @@ const Home = () => {
           headerShown: true,
           headerTitleAlign: "center",
           tabBarStyle: { display: "none" },
+          // headerRight: () => (
+          //   <Button
+          //     onPress={() => alert("This is a button!")}
+          //     title="Info"
+          //     color="#fff"
+          //   />
+          // ),
           headerLeft: () => (
-            <Image
-              source={require("../assets/arrow-left.png")}
-              onPress={() => {}}
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
               style={{
+                backgroundColor: "rgba(0,0,0,0)",
                 width: 24,
                 height: 24,
                 marginLeft: 16,
               }}
-            />
+            >
+              <Image
+                source={require("../assets/arrow-left.png")}
+                onPress={() => navigation.goBack()}
+                style={{
+                  width: 24,
+                  height: 24,
+                }}
+              />
+            </TouchableOpacity>
           ),
           tabBarIcon: () => (
             <View

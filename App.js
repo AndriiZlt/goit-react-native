@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React from "react";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
@@ -8,6 +9,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "./screens/Home";
+import MapScreen from "./screens/MapScreen";
 
 const MainStack = createNativeStackNavigator();
 
@@ -43,12 +45,21 @@ export default function App() {
         <MainStack.Screen
           name="Створити публікацію"
           component={CreatePostScreen}
-          options={{ headerShown: true, headerTitleAlign: "center" }}
+          options={{}}
         />
         <MainStack.Screen
           name="Profile"
           component={ProfileScreen}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <MainStack.Screen
+          name="Map"
+          component={MapScreen}
+          options={{
+            headerShown: false,
+          }}
         />
       </MainStack.Navigator>
     </NavigationContainer>

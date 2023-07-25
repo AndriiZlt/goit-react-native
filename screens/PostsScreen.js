@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import userImage from "../assets/user.jpg";
 
-const PostsScreen = () => {
+const PostsScreen = ({ navigation }) => {
   const [userPhoto, setUserPhoto] = useState(userImage);
   const [userName, setUserName] = useState("Natali Romanova");
   const [userMail, setUserMail] = useState("email@example.com");
@@ -89,7 +89,14 @@ const PostsScreen = () => {
                     style={styles.statsIcon}
                     source={require("../assets/map-pin.png")}
                   />
-                  <Text style={styles.statsTextLocation}>{item.location}</Text>
+                  <Text
+                    style={styles.statsTextLocation}
+                    onPress={() => {
+                      navigation.navigate("Map");
+                    }}
+                  >
+                    {item.location}
+                  </Text>
                 </View>
               </View>
             </View>
