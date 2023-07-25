@@ -16,7 +16,7 @@ const MainStack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Home">
+      <MainStack.Navigator initialRouteName="LoginScreen">
         <MainStack.Screen
           name="Registration"
           component={RegistrationScreen}
@@ -27,11 +27,11 @@ export default function App() {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        <MainStack.Screen
+        {/* <MainStack.Screen
           name="Публікації"
           component={PostsScreen}
           options={{ headerShown: true, headerTitleAlign: "center" }}
-        />
+        /> */}
         <MainStack.Screen
           name="Home"
           component={Home}

@@ -88,7 +88,7 @@ const LoginScreen = () => {
                 style={styles.regBtn}
                 onPress={() => {
                   console.log("Credentials", `${mail} + ${password}`);
-                  navigation.navigate("Публікації");
+                  navigation.navigate("Home");
                 }}
               >
                 <Text style={styles.textBtn}>Увійти</Text>
