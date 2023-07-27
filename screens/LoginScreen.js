@@ -24,11 +24,11 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+    const showSubscriptionBtn = Keyboard.addListener("keyboardDidShow", () => {
       setFormHeight(248);
       setDisplay("none");
     });
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+    const hideSubscriptionBtn = Keyboard.addListener("keyboardDidHide", () => {
       setFormHeight(489);
       setDisplay("flex");
       textInputMail.current.blur();
@@ -36,8 +36,8 @@ const LoginScreen = () => {
     });
 
     return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
+      showSubscriptionBtn.remove();
+      hideSubscriptionBtn.remove();
     };
   }, []);
 

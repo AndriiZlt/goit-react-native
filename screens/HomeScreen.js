@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import PostsScreen from "./PostsScreen";
-import CreatePostScreen from "./CreatePostScreen";
-import ProfileScreen from "./ProfileScreen";
+import PostsScreen from "../components/PostsScreen";
+import CreatePostScreen from "../components/CreatePostScreen";
+import ProfileScreen from "../components/ProfileScreen";
 
 const Tabs = createBottomTabNavigator();
 
@@ -42,14 +42,18 @@ const Home = ({ navigation }) => {
           headerShown: true,
           headerTitleAlign: "center",
           headerRight: () => (
-            <Image
-              source={require("../assets/log-out.png")}
-              style={{
-                width: 24,
-                height: 24,
-                marginRight: 16,
-              }}
-            />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
+              <Image
+                source={require("../assets/log-out.png")}
+                style={{
+                  width: 24,
+                  height: 24,
+                  marginRight: 16,
+                }}
+              />
+            </TouchableOpacity>
           ),
           tabBarIcon: () => (
             <Image
@@ -88,7 +92,7 @@ const Home = ({ navigation }) => {
             >
               <Image
                 source={require("../assets/arrow-left.png")}
-                onPress={() => navigation.goBack()}
+                // onPress={() => navigation.navigate("Home")}
                 style={{
                   width: 24,
                   height: 24,

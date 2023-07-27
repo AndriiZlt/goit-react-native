@@ -6,40 +6,15 @@ import {
   ImageBackground,
   FlatList,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import userImage from "../assets/user.jpg";
+import posts from "../posts.js";
 
 const PostsScreen = ({ navigation }) => {
   const [userPhoto, setUserPhoto] = useState(userImage);
   const [userName, setUserName] = useState("Natali Romanova");
   const [userMail, setUserMail] = useState("email@example.com");
-
-  const posts = [
-    {
-      id: "1",
-      title: "Ліс",
-      image: require("../assets/postBackground.png"),
-      comments: 0,
-      likes: 153,
-      location: "Ivano-Frankivs'k Region, Ukraine",
-    },
-    {
-      id: "2",
-      title: "Захід на Чорному морі",
-      image: require("../assets/post2-image.jpg"),
-      comments: 3,
-      likes: 200,
-      location: "Ukraine",
-    },
-    {
-      id: "3",
-      title: "Старий будиночок у Венеції",
-      image: require("../assets/post3-image.jpg"),
-      comments: 50,
-      likes: 200,
-      location: "Italy",
-    },
-  ];
 
   return (
     <View style={styles.container}>
@@ -70,14 +45,21 @@ const PostsScreen = ({ navigation }) => {
               ></Image>
               <Text style={styles.postTitle}>{item.title}</Text>
               <View style={styles.postStats}>
-                <Image
-                  style={styles.statsIcon}
-                  source={
-                    item.comments === 0
-                      ? require("../assets/message-circle-grey.png")
-                      : require("../assets/message-circle.png")
-                  }
-                />
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(`Коментарі`);
+                  }}
+                >
+                  <Image
+                    style={styles.statsIcon}
+                    source={
+                      item.comments === 0
+                        ? require("../assets/message-circle-grey.png")
+                        : require("../assets/message-circle.png")
+                    }
+                  />
+                </TouchableOpacity>
+
                 <Text style={styles.statsText}>{item.comments}</Text>
                 {/* <Image
                   source={require("../assets/thumbs-up.png")}
