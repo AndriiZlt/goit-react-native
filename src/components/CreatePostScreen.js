@@ -1,3 +1,7 @@
+import { useEffect, useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+
 import {
   View,
   Text,
@@ -11,34 +15,37 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
-import { useEffect, useState, useRef } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import flipCamera from "../assets/flip-camera.png";
 import cameraImage from "../assets/camera-transparent.png";
 import * as Location from "expo-location";
-import { addPost } from "../posts";
-import posts from "../posts";
+import posts from "../../posts";
+import authSelectors from "../redux/selectors";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../config";
 
 const CreatePostScreen = () => {
-  const [height, setHeight] = useState("auto");
   const navigation = useNavigation();
+  const state = useSelector(authSelectors.getState);
+  const [postTitle, setPostTitle] = useState("");
+  const [postLocation, setPostLocation] = useState("");
+  const [location, setLocation] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const textInputLocation = useRef(null);
+  const textInputTitle = useRef(null);
+
+  // Styling elements
+  const [height, setHeight] = useState("auto");
   const [btnBackground, setBtnBackground] = useState("#F6F6F6");
   const [textColor, setTextColor] = useState("#BDBDBD");
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [shown, setShown] = useState(true);
-  const textInputLocation = useRef(null);
-  const textInputTitle = useRef(null);
+
   const [titleBorder, setTitleBorder] = useState("#E8E8E8");
   const [locationBorder, setLocationBorder] = useState("#E8E8E8");
-  const [postTitle, setPostTitle] = useState("");
-  const [postLocation, setPostLocation] = useState("");
-  const [location, setLocation] = useState(null);
-  const [postImage, setPostImage] = useState(null);
-  const shortid = require("shortid");
 
   useEffect(() => {
     (async () => {
@@ -77,20 +84,25 @@ const CreatePostScreen = () => {
       keyboardShownListener.remove();
       keyboardHideListener.remove();
     };
-
-    console.log("posts", posts);
   }, []);
 
-  const publishHandler = () => {
-    addPost({
-      id: shortid.generate(),
-      title: postTitle,
-      image: postImage,
-      comments: 0,
-      likes: 0,
-      location: postLocation,
-      geolocation: location,
-    });
+  const publishHandler = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "posts"), {
+        userId: state.user.uid,
+        title: postTitle,
+        image: imageUrl,
+        comments: [],
+        likes: 0,
+        userLocation: postLocation,
+        geoLocation: location,
+        postTime: new Date().toLocaleString(),
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      throw e;
+    }
   };
 
   if (hasPermission === null) {
@@ -108,7 +120,7 @@ const CreatePostScreen = () => {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View>
           <View style={styles.image}>
-            {!postImage ? (
+            {!imageUrl ? (
               <Camera style={styles.camera} type={type} ref={setCameraRef}>
                 <View style={styles.photoView}>
                   <TouchableOpacity
@@ -132,7 +144,7 @@ const CreatePostScreen = () => {
                       if (cameraRef) {
                         const { uri } = await cameraRef.takePictureAsync();
                         await MediaLibrary.createAssetAsync(uri);
-                        setPostImage(uri);
+                        setImageUrl(uri);
                         console.log(uri);
                       }
                     }}
@@ -147,7 +159,7 @@ const CreatePostScreen = () => {
             ) : (
               <ImageBackground
                 source={{
-                  uri: postImage,
+                  uri: imageUrl,
                 }}
                 style={{
                   width: "100%",

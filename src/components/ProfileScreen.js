@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   ImageBackground,
@@ -12,11 +14,15 @@ import {
   ScrollView,
   StatusBar,
   FlatList,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
-import { Dimensions } from "react-native";
-import React, { useState } from "react";
+import authSelectors from "../redux/selectors";
+import authOperations from "../redux/operations";
 
 const ProfileScreen = () => {
+  const dispatch = useDispatch();
+  const userName = useSelector(authSelectors.getUserName);
   const [userPhoto, setUserPhoto] = useState(require("../assets/user.jpg"));
 
   const posts = [
@@ -80,9 +86,8 @@ const ProfileScreen = () => {
                   </View>
                 </View>
               </View>
-
-              <Image
-                source={require("../assets/log-out.png")}
+              <TouchableOpacity
+                onPress={() => dispatch(authOperations.logOut())}
                 style={{
                   position: "absolute",
                   right: 16,
@@ -91,8 +96,20 @@ const ProfileScreen = () => {
                   width: 24,
                   height: 24,
                 }}
-              />
-              <Text style={styles.nameTitle}>Natali Romanova</Text>
+              >
+                <Image
+                  source={require("../assets/log-out.png")}
+                  style={{
+                    // position: "absolute",
+                    // right: 16,
+                    // bottom: 80,
+                    // zIndex: 6,
+                    width: 24,
+                    height: 24,
+                  }}
+                />
+              </TouchableOpacity>
+              <Text style={styles.nameTitle}>{userName}</Text>
             </View>
             <FlatList
               style={styles.posts}

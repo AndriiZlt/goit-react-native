@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   View,
   ImageBackground,
@@ -13,8 +14,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import userImage from "../assets/user.jpg";
 import { Dimensions } from "react-native";
+import authOperations from "../redux/operations";
 
 const RegistrationScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [formHeight, setFormHeight] = useState(549);
   const [display, setDisplay] = useState("flex");
@@ -22,12 +25,13 @@ const RegistrationScreen = () => {
   const [nameInputBoder, setNameInputBorder] = useState("#E8E8E8");
   const [mailInputBorder, setMailInputBorder] = useState("#E8E8E8");
   const [passwordInputBorder, setPasswordInputBorder] = useState("#E8E8E8");
-  const [name, setName] = useState("");
-  const [mail, setMail] = useState("");
-  const [password, setPassword] = useState("");
   const textInputName = useRef(null);
   const textInputMail = useRef(null);
   const textInputPassword = useRef(null);
+
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -121,10 +125,9 @@ const RegistrationScreen = () => {
             <View style={{ display: display }}>
               <Pressable
                 style={styles.regBtn}
-                onPress={() => {
-                  console.log("Credentials", `${name} + ${mail} + ${password}`);
-                  navigation.navigate("Home");
-                }}
+                onPress={() =>
+                  dispatch(authOperations.signIn({ mail, password, name }))
+                }
               >
                 <Text style={styles.textBtn}>Зареєстуватися</Text>
               </Pressable>

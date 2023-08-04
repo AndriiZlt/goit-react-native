@@ -2,7 +2,7 @@ export default posts = [
   {
     id: "1",
     title: "Ліс",
-    image: require("./assets/postBackground.png"),
+    image: require("./src/assets/postBackground.png"),
     comments: 0,
     likes: 153,
     location: "Ivano-Frankivs'k Region, Ukraine",
@@ -10,7 +10,7 @@ export default posts = [
   {
     id: "2",
     title: "Захід на Чорному морі",
-    image: require("./assets/post2-image.jpg"),
+    image: require("./src/assets/post2-image.jpg"),
     comments: 3,
     likes: 200,
     location: "Ukraine",
@@ -18,7 +18,7 @@ export default posts = [
   {
     id: "3",
     title: "Старий будиночок у Венеції",
-    image: require("./assets/post3-image.jpg"),
+    image: require("./src/assets/post3-image.jpg"),
     comments: 50,
     likes: 200,
     location: "Italy",

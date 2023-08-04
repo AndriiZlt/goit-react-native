@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   View,
   StyleSheet,
@@ -9,12 +10,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import userImage from "../assets/user.jpg";
-import posts from "../posts.js";
+import posts from "../../posts.js";
+import authSelectors from "../redux/selectors";
 
 const PostsScreen = ({ navigation }) => {
-  const [userPhoto, setUserPhoto] = useState(userImage);
-  const [userName, setUserName] = useState("Natali Romanova");
-  const [userMail, setUserMail] = useState("email@example.com");
+  const [userPhoto, _] = useState(userImage);
+  const userName = useSelector(authSelectors.getUserName);
+  const userMail = useSelector(authSelectors.getUserEmail);
 
   return (
     <View style={styles.container}>

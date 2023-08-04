@@ -8,11 +8,14 @@ import {
   TextInput,
   Pressable,
   Keyboard,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Dimensions } from "react-native";
+import { useDispatch } from "react-redux";
+import authOperations from "../redux/operations";
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [formHeight, setFormHeight] = useState(489);
   const [display, setDisplay] = useState("flex");
@@ -86,10 +89,9 @@ const LoginScreen = () => {
             <View style={{ display: display }}>
               <Pressable
                 style={styles.regBtn}
-                onPress={() => {
-                  console.log("Credentials", `${mail} + ${password}`);
-                  navigation.navigate("Home");
-                }}
+                onPress={() =>
+                  dispatch(authOperations.logIn({ mail, password }))
+                }
               >
                 <Text style={styles.textBtn}>Увійти</Text>
               </Pressable>

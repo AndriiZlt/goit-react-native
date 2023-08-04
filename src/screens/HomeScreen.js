@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import {
   Image,
   View,
@@ -11,10 +12,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostsScreen from "../components/PostsScreen";
 import CreatePostScreen from "../components/CreatePostScreen";
 import ProfileScreen from "../components/ProfileScreen";
+import authOperations from "../redux/operations";
 
 const Tabs = createBottomTabNavigator();
 
 const Home = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   return (
     <Tabs.Navigator
       initialRouteName="Публікації"
@@ -42,9 +46,7 @@ const Home = ({ navigation }) => {
           headerShown: true,
           headerTitleAlign: "center",
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("LoginScreen")}
-            >
+            <TouchableOpacity onPress={() => dispatch(authOperations.logOut())}>
               <Image
                 source={require("../assets/log-out.png")}
                 style={{
