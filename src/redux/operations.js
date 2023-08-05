@@ -37,7 +37,9 @@ const signIn = createAsyncThunk(
 
 const logIn = createAsyncThunk("auth/login", async ({ mail, password }) => {
   try {
+    console.log("loging in");
     const data = await signInWithEmailAndPassword(auth, mail, password);
+    console.log("data", data);
     return data._tokenResponse;
   } catch (error) {
     throw error;

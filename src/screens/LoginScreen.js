@@ -25,6 +25,7 @@ const LoginScreen = () => {
   const textInputPassword = useRef(null);
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   useEffect(() => {
     const showSubscriptionBtn = Keyboard.addListener("keyboardDidShow", () => {
@@ -58,6 +59,7 @@ const LoginScreen = () => {
               <TextInput
                 style={[styles.input, { borderColor: mailInputBorder }]}
                 ref={textInputMail}
+                autoCapitalize="none"
                 placeholder="Адреса електронної пошти"
                 placeholderTextColor="#BDBDBD"
                 onFocus={() => setMailInputBorder("#FF6C00")}
@@ -74,6 +76,8 @@ const LoginScreen = () => {
                   ]}
                   ref={textInputPassword}
                   placeholder="Пароль"
+                  secureTextEntry={secureTextEntry}
+                  autoCapitalize="none"
                   placeholderTextColor="#BDBDBD"
                   onFocus={() => setPasswordInputBorder("#FF6C00")}
                   onBlur={() => setPasswordInputBorder("#E8E8E8")}
@@ -81,7 +85,14 @@ const LoginScreen = () => {
                   onChangeText={setPassword}
                 ></TextInput>
 
-                <Text style={styles.showPasswordText} onPress={() => {}}>
+                <Text
+                  style={styles.showPasswordText}
+                  onPress={() => {
+                    secureTextEntry
+                      ? setSecureTextEntry(false)
+                      : setSecureTextEntry(true);
+                  }}
+                >
                   Показати
                 </Text>
               </View>

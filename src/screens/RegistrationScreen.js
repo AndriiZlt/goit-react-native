@@ -28,7 +28,7 @@ const RegistrationScreen = () => {
   const textInputName = useRef(null);
   const textInputMail = useRef(null);
   const textInputPassword = useRef(null);
-
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
@@ -96,6 +96,7 @@ const RegistrationScreen = () => {
               style={[styles.input, { borderColor: mailInputBorder }]}
               ref={textInputMail}
               placeholder="Адреса електронної пошти"
+              autoCapitalize="none"
               placeholderTextColor="#BDBDBD"
               onFocus={() => setMailInputBorder("#FF6C00")}
               onBlur={() => setMailInputBorder("#E8E8E8")}
@@ -111,6 +112,8 @@ const RegistrationScreen = () => {
                 ]}
                 ref={textInputPassword}
                 placeholder="Пароль"
+                secureTextEntry={secureTextEntry}
+                autoCapitalize="none"
                 placeholderTextColor="#BDBDBD"
                 onFocus={() => setPasswordInputBorder("#FF6C00")}
                 onBlur={() => setPasswordInputBorder("#E8E8E8")}
@@ -118,7 +121,14 @@ const RegistrationScreen = () => {
                 onChangeText={setPassword}
               ></TextInput>
 
-              <Text style={styles.showPasswordText} onPress={() => {}}>
+              <Text
+                style={styles.showPasswordText}
+                onPress={() => {
+                  secureTextEntry
+                    ? setSecureTextEntry(false)
+                    : setSecureTextEntry(true);
+                }}
+              >
                 Показати
               </Text>
             </View>
