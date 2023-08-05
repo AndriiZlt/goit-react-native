@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   View,
@@ -10,13 +10,46 @@ import {
   TouchableOpacity,
 } from "react-native";
 import userImage from "../assets/user.jpg";
-import posts from "../../posts.js";
+// import posts from "../../posts.js";
 import authSelectors from "../redux/selectors";
+import { doc, updateDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../../config";
 
 const PostsScreen = ({ navigation }) => {
   const [userPhoto, _] = useState(userImage);
   const userName = useSelector(authSelectors.getUserName);
   const userMail = useSelector(authSelectors.getUserEmail);
+  const [posts, setPosts] = useState([]);
+
+  const fetchPost = async () => {
+    await getDocs(collection(db, "posts")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setPosts(newData);
+    });
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, []);
+
+  const updateLikes = (postId, currentLikes) => {
+    const updateDataInFirestore = async (collectionName, docId) => {
+      try {
+        const ref = doc(db, collectionName, docId);
+        await updateDoc(ref, {
+          likes: currentLikes + 1,
+        });
+        console.log("document updated");
+        fetchPost();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    updateDataInFirestore("posts", postId);
+  };
 
   return (
     <View style={styles.container}>
@@ -42,32 +75,63 @@ const PostsScreen = ({ navigation }) => {
             <View style={styles.post}>
               <Image
                 style={styles.postImage}
-                source={item.image}
+                source={{ uri: item.image }}
                 resizeMode="contain"
               ></Image>
               <Text style={styles.postTitle}>{item.title}</Text>
               <View style={styles.postStats}>
                 <TouchableOpacity
+                  style={{ display: "flex" }}
                   onPress={() => {
-                    navigation.navigate(`Коментарі`);
+                    navigation.navigate(`Коментарі`, {
+                      postId: item.id,
+                    });
                   }}
                 >
                   <Image
                     style={styles.statsIcon}
                     source={
-                      item.comments === 0
+                      item.comments.length === 0
                         ? require("../assets/message-circle-grey.png")
                         : require("../assets/message-circle.png")
                     }
                   />
                 </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.statsText,
+                    {
+                      color: item.comments.length > 0 ? "#212121" : "#BDBDBD",
+                    },
+                  ]}
+                >
+                  {item.comments.length}
+                </Text>
 
-                <Text style={styles.statsText}>{item.comments}</Text>
-                {/* <Image
-                  source={require("../assets/thumbs-up.png")}
-                  style={styles.statsIcon}
-                />
-                <Text style={styles.statsText}>{item.likes}</Text> */}
+                <TouchableOpacity
+                  onPress={() => {
+                    updateLikes(item.id, item.likes);
+                  }}
+                >
+                  <Image
+                    source={
+                      item.comments.length === 0
+                        ? require("../assets/thumbs-up-grey.png")
+                        : require("../assets/thumbs-up.png")
+                    }
+                    style={styles.statsIcon}
+                  />
+                </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.statsText,
+                    {
+                      color: item.comments.length > 0 ? "#212121" : "#BDBDBD",
+                    },
+                  ]}
+                >
+                  {item.likes}
+                </Text>
                 <View style={styles.statsLocation}>
                   <Image
                     style={styles.statsIcon}
@@ -76,20 +140,23 @@ const PostsScreen = ({ navigation }) => {
                   <Text
                     style={styles.statsTextLocation}
                     onPress={() => {
-                      navigation.navigate("Map");
+                      navigation.navigate("Map", {
+                        location: item.geoLocation,
+                      });
                     }}
                   >
-                    {item.location}
+                    {item.userLocation}
                   </Text>
                 </View>
               </View>
             </View>
           );
         }}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(post) => post.id}
       ></FlatList>
     </View>
   );
+  // );
 };
 
 const styles = StyleSheet.create({
@@ -162,6 +229,8 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 1.429166666666667,
     marginBottom: 8,
+    objectFit: "cover",
+    borderRadius: 8,
   },
 
   postTitle: {
@@ -190,6 +259,7 @@ const styles = StyleSheet.create({
     lineHeight: 18.75,
     marginRight: 24,
     alignSelf: "center",
+    color: "#BDBDBD",
   },
 
   statsLocation: {
