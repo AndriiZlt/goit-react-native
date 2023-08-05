@@ -36,12 +36,12 @@ const RegistrationScreen = () => {
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setFormHeight(374);
-      setUserPhoto(userImage);
+      // setUserPhoto(userImage);
       setDisplay("none");
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setFormHeight(549);
-      setUserPhoto(null);
+      // setUserPhoto(null);
       setDisplay("flex");
       textInputName.current.blur();
       textInputMail.current.blur();

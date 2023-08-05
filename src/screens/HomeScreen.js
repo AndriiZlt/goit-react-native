@@ -75,13 +75,6 @@ const Home = ({ navigation }) => {
           headerShown: true,
           headerTitleAlign: "center",
           tabBarStyle: { display: "none" },
-          // headerRight: () => (
-          //   <Button
-          //     onPress={() => alert("This is a button!")}
-          //     title="Info"
-          //     color="#fff"
-          //   />
-          // ),
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => navigation.goBack()}
@@ -94,7 +87,6 @@ const Home = ({ navigation }) => {
             >
               <Image
                 source={require("../assets/arrow-left.png")}
-                // onPress={() => navigation.navigate("Home")}
                 style={{
                   width: 24,
                   height: 24,

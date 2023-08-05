@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 import {
@@ -20,7 +20,6 @@ import * as MediaLibrary from "expo-media-library";
 import flipCamera from "../assets/flip-camera.png";
 import cameraImage from "../assets/camera-transparent.png";
 import * as Location from "expo-location";
-import posts from "../../posts";
 import authSelectors from "../redux/selectors";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../config";
@@ -99,6 +98,7 @@ const CreatePostScreen = () => {
         postTime: new Date().toLocaleString(),
       });
       console.log("Document written with ID: ", docRef.id);
+      navigation.navigate("Profile");
     } catch (e) {
       console.error("Error adding document: ", e);
       throw e;
@@ -187,6 +187,7 @@ const CreatePostScreen = () => {
                 setTitleBorder("#E8E8E8");
               }}
               onChangeText={(text) => setPostTitle(text)}
+              value={postTitle}
             ></TextInput>
             <View style={styles.relative}>
               <TextInput
@@ -203,6 +204,7 @@ const CreatePostScreen = () => {
                   setLocationBorder("#E8E8E8");
                 }}
                 onChangeText={(text) => setPostLocation(text)}
+                value={postLocation}
               ></TextInput>
               <Image
                 source={require("../assets/map-pin.png")}
@@ -219,19 +221,41 @@ const CreatePostScreen = () => {
           {shown && (
             <View>
               <Pressable
-                style={[styles.publishBtn, { backgroundColor: btnBackground }]}
+                style={[
+                  styles.publishBtn,
+                  {
+                    backgroundColor:
+                      postTitle === "" || postLocation === ""
+                        ? "#F6F6F6"
+                        : "#FF6C00",
+                  },
+                ]}
                 onPress={() => {
                   publishHandler();
-                  navigation.navigate("Home");
+                  setImageUrl(null);
+                  setPostTitle("");
+                  setPostLocation("");
                 }}
               >
-                <Text style={[styles.textBtn, { color: textColor }]}>
+                <Text
+                  style={[
+                    styles.textBtn,
+                    {
+                      color:
+                        postTitle === "" || postLocation === ""
+                          ? "#BDBDBD"
+                          : "#FFFFFF",
+                    },
+                  ]}
+                >
                   Опубліковати
                 </Text>
               </Pressable>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("Home");
+                  setImageUrl(null);
+                  setPostTitle("");
+                  setPostLocation("");
                 }}
               >
                 <Image
