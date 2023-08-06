@@ -39,13 +39,11 @@
     "react-native-svg": "13.4.0",
     "react-redux": "^8.1.2",
     "redux-persist": "^6.0.0",
-    "shortid": "^2.2.16",
     "styled-components": "^5.3.10",
     "uuid": "8.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "react-native-svg-transformer": "^1.0.0"
+    "@babel/core": "^7.20.0"
   },
   "private": true
 }
